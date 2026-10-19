@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دنیای کوچیک ما — Couple OS</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.2);
+            --primary: #ff6b9d;
+            --secondary: #c06c84;
+            --accent: #f67280;
+            --dark-bg: #1a0a1e;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #1a0a1e 0%, #2d1b3d 25%, #1e1028 50%, #2a1535 75%, #1a0a1e 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Glassmorphism Card */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px var(--glass-shadow);
+            border-radius: 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: white;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+        }
+
+        /* Screenshots Carousel */
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .screenshot-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 24px;
+        }
+
+        .screenshot-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Security Section */
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .security-item {
+            padding: 25px;
+            display: flex;
+            align-items: start;
+            gap: 15px;
+        }
+
+        .security-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .security-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .security-text p {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo-icon">❤️</div>
+            </div>
+            <h1>دنیای کوچیک ما</h1>
+            <p class="tagline">Couple OS — فضای خصوصی دونفره شما</p>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 30px; line-height: 1.8;">
+                یک اپلیکیشن امن و خصوصی که فقط برای دو نفر ساخته شده — جایی برای خاطرات، گفتگوها، برنامه‌ها و همه چیزهای مشترک شما
+            </p>
+            <div class="cta-buttons">
+                <a href="#features" class="btn btn-primary">
+                    <span>✨</span>
+                    <span>مشاهده قابلیت‌ها</span>
+                </a>
+                <a href="mvp/index.html" class="btn btn-secondary">
+                    <span>🚀</span>
+                    <span>نسخه وب MVP</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Screenshots Section -->
+    <section id="screenshots">
+        <div class="container">
+            <h2 class="section-title">نگاهی به اپلیکیشن</h2>
+            <p class="section-subtitle">طراحی زیبا با رابط کاربری شیشه‌ای و فارسی</p>
+            
+            <div class="screenshots">
+                <div class="screenshot-card glass">
+                    <img src="images/screenshot-dashboard.jpg" alt="داشبورد">
+                    <div class="screenshot-label">داشبورد اصلی</div>
+                </div>
+                <div class="screenshot-card glass">
+                    <img src="images/screenshot-chat.jpg" alt="چت">
+                    <div class="screenshot-label">چت دونفره</div>
+                </div>
+                <div class="screenshot-card glass">
+                    <img src="images/screenshot-memories.jpg" alt="خاطرات">
+                    <div class="screenshot-label">گالری خاطرات</div>
+                </div>
+                <div class="screenshot-card glass">
+                    <img src="images/screenshot-features.jpg" alt="قابلیت‌ها">
+                    <div class="screenshot-label">قابلیت‌های بیشتر</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">فضای مشترک</h2>
+            <p class="section-subtitle">همه چیزهایی که برای دونفره نیاز دارید</p>
+            
+            <div class="features-grid">
+                <div class="feature-card glass">
+                    <span class="feature-icon">💬</span>
+                    <h3 class="feature-title">چت آنی</h3>
+                    <p class="feature-desc">گفتگوی لحظه‌ای با استیکرهای عاشقانه و ارسال عکس</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">📸</span>
+                    <h3 class="feature-title">خاطرات و گالری</h3>
+                    <p class="feature-desc">ذخیره عکس‌ها و لحظات خاص با تاریخ و کپشن</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">📅</span>
+                    <h3 class="feature-title">تقویم مشترک</h3>
+                    <p class="feature-desc">برنامه‌ریزی قرارها و رویدادهای مهم دونفره</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">✅</span>
+                    <h3 class="feature-title">لیست کارها</h3>
+                    <p class="feature-desc">تسک‌های مشترک و هماهنگی کارهای روزمره</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">💝</span>
+                    <h3 class="feature-title">نامه‌های عاشقانه</h3>
+                    <p class="feature-desc">نامه‌های زمان‌دار که در زمان مشخص باز می‌شن</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">🎁</span>
+                    <h3 class="feature-title">سورپرایزها</h3>
+                    <p class="feature-desc">ایده‌ها و سورپرایزهای خاص برای هم</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">📝</span>
+                    <h3 class="feature-title">ژورنال مشترک</h3>
+                    <p class="feature-desc">نوشتن خاطرات و تجربیات روزانه با هم</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">باکت لیست</h3>
+                    <p class="feature-desc">لیست آرزوها و کارهایی که می‌خواید با هم انجام بدید</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">⭐</span>
+                    <h3 class="feature-title">ویشلیست</h3>
+                    <p class="feature-desc">لیست هدایا و چیزهایی که دوست دارید</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">⏱️</span>
+                    <h3 class="feature-title">شمارش معکوس</h3>
+                    <p class="feature-desc">شمارش روزهای خاص مثل سالگرد و تولدها</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">💰</span>
+                    <h3 class="feature-title">هزینه‌های مشترک</h3>
+                    <p class="feature-desc">مدیریت مخارج و هزینه‌های مشترک</p>
+                </div>
+                <div class="feature-card glass">
+                    <span class="feature-icon">😊</span>
+                    <h3 class="feature-title">ردیابی مود</h3>
+                    <p class="feature-desc">ثبت حال و احساسات روزانه و درک بهتر هم</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section id="security">
+        <div class="container">
+            <h2 class="section-title">امنیت و حریم خصوصی</h2>
+            <p class="section-subtitle">دیتای شما فقط برای شماست</p>
+            
+            <div class="security-features">
+                <div class="security-item glass">
+                    <span class="security-icon">🔐</span>
+                    <div class="security-text">
+                        <h3>قفل اپلیکیشن</h3>
+                        <p>محافظت با PIN و اثر انگشت</p>
+                    </div>
+                </div>
+                <div class="security-item glass">
+                    <span class="security-icon">🔒</span>
+                    <div class="security-text">
+                        <h3>ذخیره‌سازی رمزنگاری</h3>
+                        <p>استفاده از Android Keystore برای امنیت کامل</p>
+                    </div>
+                </div>
+                <div class="security-item glass">
+                    <span class="security-icon">🛡️</span>
+                    <div class="security-text">
+                        <h3>ایزولاسیون کاپل</h3>
+                        <p>هیچ کاپلی به دیتای کاپل دیگه دسترسی نداره</p>
+                    </div>
+                </div>
+                <div class="security-item glass">
+                    <span class="security-icon">☁️</span>
+                    <div class="security-text">
+                        <h3>سینک امن</h3>
+                        <p>همگام‌سازی رمزنگاری شده با GitHub Gist</p>
+                    </div>
+                </div>
+                <div class="security-item glass">
+                    <span class="security-icon">📱</span>
+                    <div class="security-text">
+                        <h3>آفلاین فرست</h3>
+                        <p>کار بدون اینترنت با سینک خودکار بعدی</p>
+                    </div>
+                </div>
+                <div class="security-item glass">
+                    <span class="security-icon">🔑</span>
+                    <div class="security-text">
+                        <h3>معماری سه توکنی</h3>
+                        <p>احراز هویت امن با توکن‌های جداگانه</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="container">
+            <h2 class="section-title">آمار پروژه</h2>
+            <div class="stats">
+                <div class="stat-card glass">
+                    <div class="stat-number">۲۹+</div>
+                    <div class="stat-label">قابلیت فعال</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">۱۹</div>
+                    <div class="stat-label">جدول دیتابیس</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">۱۰۰٪</div>
+                    <div class="stat-label">رمزنگاری شده</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">۲</div>
+                    <div class="stat-label">نفر max</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="container">
+            <div class="glass" style="padding: 60px 40px; text-align: center;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--primary);">آماده‌اید؟</h2>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 30px; line-height: 1.8;">
+                    دنیای کوچیک خودتون رو بسازید و خاطرات دونفره‌تون رو ذخیره کنید
+                </p>
+                <div class="cta-buttons">
+                    <a href="mvp/index.html" class="btn btn-primary">
+                        <span>🚀</span>
+                        <span>شروع نسخه وب</span>
+                    </a>
+                    <a href="https://github.com/aftereditchannel-cell/LOVE" target="_blank" class="btn btn-secondary">
+                        <span>💻</span>
+                        <span>مشاهده در GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">❤️ ساخته شده با عشق برای دو نفر</p>
+            <div class="footer-links">
+                <a href="https://github.com/aftereditchannel-cell/LOVE" target="_blank">GitHub</a>
+                <a href="#features">قابلیت‌ها</a>
+                <a href="#security">امنیت</a>
+                <a href="mvp/index.html">نسخه وب</a>
+            </div>
+            <p style="color: var(--text-secondary); margin-top: 20px; font-size: 0.9rem;">
+                © 2026 دنیای کوچیک ما — Couple OS
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                bgAnimation.appendChild(heart);
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize
+        createHearts();
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.glass').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
